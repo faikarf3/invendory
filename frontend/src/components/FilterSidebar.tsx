@@ -54,6 +54,7 @@ const ratings = [
 
 const FilterSidebar = () => {
   const [priceRange, setPriceRange] = useState([0, 50000000]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const formatPrice = (value: number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -65,12 +66,32 @@ const FilterSidebar = () => {
   };
 
   return (
-    <aside className="w-full lg:w-72 bg-filter rounded-2xl p-5 h-fit sticky top-24 border border-filter-border">
-      {/* Header */}
-      <div className="flex items-center gap-2 pb-4 border-b border-filter-border mb-4">
-        <SlidersHorizontal className="h-5 w-5 text-primary" />
-        <h2 className="font-heading text-lg font-bold text-foreground">Filter</h2>
-      </div>
+    <aside className="w-full lg:w-72">
+      {/* Mobile: Collapsible Button */}
+      <button
+        onClick={() => setIsFilterOpen(!isFilterOpen)}
+        className="lg:hidden w-full flex items-center justify-between bg-filter rounded-xl p-4 border border-filter-border mb-4 hover:border-primary transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <SlidersHorizontal className="h-5 w-5 text-primary" />
+          <h2 className="font-heading text-base font-bold text-foreground">Filter</h2>
+        </div>
+        {isFilterOpen ? (
+          <ChevronUp className="h-5 w-5 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="h-5 w-5 text-muted-foreground" />
+        )}
+      </button>
+
+      {/* Filter Content */}
+      <div className={`bg-filter rounded-2xl p-5 border border-filter-border lg:h-fit lg:sticky lg:top-24 ${
+        isFilterOpen ? 'block' : 'hidden lg:block'
+      }`}>
+        {/* Desktop Header */}
+        <div className="hidden lg:flex items-center gap-2 pb-4 border-b border-filter-border mb-4">
+          <SlidersHorizontal className="h-5 w-5 text-primary" />
+          <h2 className="font-heading text-lg font-bold text-foreground">Filter</h2>
+        </div>
 
       <div className="space-y-4">
         {/* Categories */}
@@ -161,6 +182,7 @@ const FilterSidebar = () => {
             ))}
           </div>
         </FilterSection>
+      </div>
       </div>
     </aside>
   );
