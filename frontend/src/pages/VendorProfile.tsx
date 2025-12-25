@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Camera, MapPin, Star, Globe, Phone, Mail, Clock, Edit, Eye, Share2, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -9,40 +9,93 @@ import UnderConstruction from "@/components/UnderConstruction";
 const VendorProfile = () => {
   const [activeSection, setActiveSection] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  const sections = ["profile", "dashboard", "portfolio", "reviews", "bookings", "messages", "pricing", "settings"];
+
+  const handleSwipe = () => {
+    const swipeThreshold = 50; // Minimum swipe distance
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      const currentIndex = sections.indexOf(activeSection);
+
+      if (diff > 0) {
+        // Swipe left - go to next section
+        if (currentIndex < sections.length - 1) {
+          setActiveSection(sections[currentIndex + 1]);
+        }
+      } else {
+        // Swipe right - go to previous section
+        if (currentIndex > 0) {
+          setActiveSection(sections[currentIndex - 1]);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    const content = contentRef.current;
+    if (!content) return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX.current = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      touchEndX.current = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+      handleSwipe();
+    };
+
+    content.addEventListener("touchstart", handleTouchStart);
+    content.addEventListener("touchmove", handleTouchMove);
+    content.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      content.removeEventListener("touchstart", handleTouchStart);
+      content.removeEventListener("touchmove", handleTouchMove);
+      content.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [activeSection]);
 
   // Mock vendor data
   const vendorData = {
-    name: "Elysian Wedding Organizer",
-    category: "Pernikahan",
+    name: "Pro Sound System",
+    category: "Sound System",
     location: "Jakarta Selatan",
     rating: 4.9,
     reviewCount: 234,
-    profileImage: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&auto=format&fit=crop&q=60",
-    coverImage: "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&auto=format&fit=crop&q=60",
+    profileImage: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&auto=format&fit=crop&q=60",
+    coverImage: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1200&auto=format&fit=crop&q=60",
     phone: "+62 812-3456-7890",
-    email: "info@elysianwedding.com",
-    website: "www.elysianwedding.com",
-    description: "Elysian Wedding Organizer adalah penyedia layanan pernikahan terpercaya di Jakarta Selatan. Dengan pengalaman lebih dari 10 tahun, kami telah membantu ratusan pasangan mewujudkan pernikahan impian mereka. Tim profesional kami berkomitmen untuk memberikan pelayanan terbaik dan membuat hari spesial Anda menjadi momen yang tak terlupakan.",
+    email: "info@prosoundsystem.com",
+    website: "www.prosoundsystem.com",
+    description: "Pro Sound System adalah penyedia layanan sound system profesional terpercaya di Jakarta Selatan. Dengan pengalaman lebih dari 10 tahun, kami telah melayani ratusan event dari berbagai skala. Tim teknisi profesional kami berkomitmen untuk memberikan kualitas audio terbaik dan membuat event Anda menjadi momen yang tak terlupakan.",
     businessHours: [
       { day: "Senin - Jumat", hours: "09:00 - 18:00" },
       { day: "Sabtu", hours: "10:00 - 16:00" },
       { day: "Minggu", hours: "Tutup" }
     ],
     services: [
-      "Dekorasi Pernikahan",
-      "Katering & Menu Kustom",
-      "Dokumentasi Foto & Video",
-      "Entertainment & MC",
-      "Wedding Planner",
-      "Makeup Artist"
+      "Sound System Konser",
+      "Wireless Microphone System",
+      "Line Array Speaker",
+      "Mixing Console",
+      "Monitor Speaker",
+      "Audio Technician"
     ],
     portfolioImages: [
-      "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1460978812857-470ed1c77af0?w=400&auto=format&fit=crop&q=60"
+      "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&auto=format&fit=crop&q=60"
     ],
     stats: {
       views: "12,345",
@@ -65,7 +118,7 @@ const VendorProfile = () => {
             />
 
             {/* Main Content */}
-            <div className="flex-1 space-y-6">
+            <div ref={contentRef} className="flex-1 space-y-6 lg:touch-auto touch-pan-y">
               {/* Render different content based on active section */}
               {activeSection === "dashboard" && (
                 <UnderConstruction

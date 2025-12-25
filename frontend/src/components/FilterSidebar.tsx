@@ -31,11 +31,14 @@ const FilterSection = ({ title, children, defaultOpen = true }: FilterSectionPro
 };
 
 const categories = [
-  { id: "wedding", label: "Pernikahan", count: 245 },
-  { id: "birthday", label: "Ulang Tahun", count: 189 },
-  { id: "graduation", label: "Wisuda", count: 67 },
-  { id: "corporate", label: "Korporat", count: 134 },
-  { id: "party", label: "Pesta", count: 98 },
+  { id: "sound", label: "Sound System", count: 89 },
+  { id: "lighting", label: "Lighting", count: 156 },
+  { id: "rigging", label: "Rigging", count: 67 },
+  { id: "catering", label: "Catering", count: 234 },
+  { id: "security", label: "Security", count: 98 },
+  { id: "decoration", label: "Dekorasi", count: 145 },
+  { id: "multimedia", label: "Multimedia", count: 78 },
+  { id: "stage", label: "Stage & Panggung", count: 112 },
 ];
 
 const locations = [
@@ -84,16 +87,16 @@ const FilterSidebar = () => {
       </button>
 
       {/* Filter Content */}
-      <div className={`bg-filter rounded-2xl p-5 border border-filter-border lg:h-fit lg:sticky lg:top-24 ${
+      <div className={`bg-filter rounded-2xl border border-filter-border lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto ${
         isFilterOpen ? 'block' : 'hidden lg:block'
       }`}>
-        {/* Desktop Header */}
-        <div className="hidden lg:flex items-center gap-2 pb-4 border-b border-filter-border mb-4">
+        {/* Desktop Header - Sticky */}
+        <div className="hidden lg:flex items-center gap-2 pb-4 border-b border-filter-border mb-4 sticky top-0 bg-filter z-10 p-5">
           <SlidersHorizontal className="h-5 w-5 text-primary" />
           <h2 className="font-heading text-lg font-bold text-foreground">Filter</h2>
         </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 p-5 lg:pt-0">
         {/* Categories */}
         <FilterSection title="Kategori">
           <div className="space-y-2.5">

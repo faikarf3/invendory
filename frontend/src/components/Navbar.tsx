@@ -11,7 +11,7 @@ const Navbar = () => {
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
           <span className="font-heading text-2xl font-bold text-navbar-foreground tracking-tight">
-            Invendory
+            invendory
           </span>
         </a>
 
