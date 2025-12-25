@@ -1,7 +1,9 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import FilterSidebar from "@/components/FilterSidebar";
 import VendorCard from "@/components/VendorCard";
 import Footer from "@/components/Footer";
+import VendorDetailSidebar from "@/components/VendorDetailSidebar";
 
 const vendors = [
   {
@@ -87,6 +89,18 @@ const vendors = [
 ];
 
 const Index = () => {
+  const [selectedVendor, setSelectedVendor] = useState<typeof vendors[0] | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const handleVendorClick = (vendor: typeof vendors[0]) => {
+    setSelectedVendor(vendor);
+    setIsSidebarOpen(true);
+  };
+
+  const handleCloseSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
@@ -129,7 +143,7 @@ const Index = () => {
                     className="animate-fade-in"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
-                    <VendorCard {...vendor} />
+                    <VendorCard {...vendor} onClick={() => handleVendorClick(vendor)} />
                   </div>
                 ))}
               </div>
@@ -146,6 +160,13 @@ const Index = () => {
       </main>
 
       <Footer />
+
+      {/* Vendor Detail Sidebar */}
+      <VendorDetailSidebar
+        isOpen={isSidebarOpen}
+        onClose={handleCloseSidebar}
+        vendor={selectedVendor}
+      />
     </div>
   );
 };

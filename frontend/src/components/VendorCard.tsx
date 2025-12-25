@@ -10,6 +10,7 @@ interface VendorCardProps {
   reviewCount: number;
   priceStart: number;
   image: string;
+  onClick?: () => void;
 }
 
 const VendorCard = ({
@@ -20,6 +21,7 @@ const VendorCard = ({
   reviewCount,
   priceStart,
   image,
+  onClick,
 }: VendorCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -33,7 +35,7 @@ const VendorCard = ({
   };
 
   return (
-    <article className="group bg-card rounded-2xl overflow-hidden border border-border shadow-card card-hover cursor-pointer">
+    <article onClick={onClick} className="group bg-card rounded-2xl overflow-hidden border border-border shadow-card card-hover cursor-pointer">
       {/* Image Container */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
